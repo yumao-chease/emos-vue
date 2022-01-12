@@ -178,6 +178,12 @@ export default {
 				that.deptList = resp.list;
 			});
 		},
+		addHandle: function(){
+			this.addOrUpdateVisible = true;
+			this.$nextTick(() => {
+				this.$refs.addOrUpdate.init();
+			});
+		},
 		selectionChangeHandle: function(val) {
 			this.dataListSelections = val;
 		}

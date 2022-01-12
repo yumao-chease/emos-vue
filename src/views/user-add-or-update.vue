@@ -149,7 +149,44 @@ export default {
 				}
 			});
 		},
-		
+		dataFormSubmit: function() {
+		    let that = this;
+		    this.$refs['dataForm'].validate(valid => {
+		        if (valid) {
+		            let data = {
+		                userId: that.dataForm.id,
+		                username: that.dataForm.username,
+		                password: that.dataForm.password,
+		                name: that.dataForm.name,
+		                sex: that.dataForm.sex,
+		                tel: that.dataForm.tel,
+		                email: that.dataForm.email,
+		                hiredate: dayjs(that.dataForm.hiredate).format('YYYY-MM-DD'),
+		                role: that.dataForm.role,
+		                deptId: that.dataForm.deptId,
+		                status: that.dataForm.status
+		            };
+		            that.$http(`user/${!that.dataForm.id ? 'insert' : 'update'}`, 'POST', data, true, resp => {
+		                if (resp.rows == 1) {
+		                    that.$message({
+		                        message: '操作成功',
+		                        type: 'success',
+		                        duration: 1200
+		                    });
+		                    that.visible = false;
+		                    that.$emit('refreshDataList');
+		                } else {
+		                    that.$message({
+		                        message: '操作失败',
+		                        type: 'error',
+		                        duration: 1200
+		                    });
+		                }
+		            });
+		        }
+		    });
+		}
+
 	}
 };
 </script>
