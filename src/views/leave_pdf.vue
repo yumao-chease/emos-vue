@@ -59,8 +59,35 @@ export default {
 		};
 	},
 	methods: {
-		
-	}
+    init: function(id) {
+      let that = this;
+      that.visible = true;
+      that.name = null;
+      that.sex = null;
+      that.dept = null;
+      that.reason = null;
+      that.start = null;
+      that.end = null;
+      that.type = null;
+      that.$http('leave/searchLeaveById', 'POST', {id: id}, true, function(resp) {
+        that.name = resp.name;
+        that.sex = resp.sex;
+        that.dept = resp.dept;
+        that.reason = resp.reason;
+        if (resp.type == 1) {
+          that.type = '病假';
+        } else if (resp.type == 2) {
+          that.type = '事假';
+        }
+        that.start = resp.start;
+        that.end = resp.end;
+      });
+    },
+    cancel: function() {
+      this.visible = false
+    }
+
+  }
 };
 </script>
 

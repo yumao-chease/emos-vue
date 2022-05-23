@@ -8,7 +8,7 @@
 		<nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
 			<div class="site-navbar__header">
 				<h1 class="site-navbar__brand">
-					<a class="site-navbar__brand-lg">Emos在线办公系统</a>
+					<a class="site-navbar__brand-lg">在线协同办公自动化系统</a>
 					<a class="site-navbar__brand-mini">OA</a>
 				</h1>
 			</div>
@@ -34,6 +34,9 @@
 							</span>
 							<template #dropdown>
 								<el-dropdown-menu>
+                  <el-dropdown-item @click="updateUserInfo()">
+                    个人信息
+                  </el-dropdown-item>
 									<el-dropdown-item @click="updatePasswordHandle()">
 										修改密码
 									</el-dropdown-item>
@@ -45,6 +48,7 @@
 				</el-menu>
 			</div>
 			<update-password v-if="updatePasswordVisible" ref="updatePassword"></update-password>
+      <update-userInfo v-if="updateUserInfoVisible" ref="updateUserInfo"></update-userInfo>
 		</nav>
 		<aside class="site-sidebar site-sidebar--dark">
 			<div class="site-sidebar__inner">
@@ -222,9 +226,10 @@
 import SvgIcon from '../components/SvgIcon.vue';
 import { isURL } from '../utils/validate';
 import UpdatePassword from './update-password.vue';
+import UpdateUserInfo from './update-userInfo.vue';
 import { ref, provide } from 'vue';
 export default {
-	components: { SvgIcon, UpdatePassword },
+	components: { SvgIcon, UpdatePassword ,UpdateUserInfo},
 	data: function() {
 		return {
 			navbarLayoutType: '',
@@ -238,7 +243,8 @@ export default {
 			mainTabs: [],
 			mainTabsActiveName: '',
 			menuActiveName: '',
-			updatePasswordVisible: false
+			updatePasswordVisible: false,
+      updateUserInfoVisible: false
 		};
 	},
 	created() {
@@ -262,6 +268,12 @@ export default {
 		}
 	},
 	methods: {
+    updateUserInfo: function (){
+      this.updateUserInfoVisible = true;
+      this.$nextTick(() => {
+        this.$refs.updateUserInfo.init();
+      });
+    },
 		updatePasswordHandle: function(){
 			this.updatePasswordVisible = true;
 			this.$nextTick(() => {

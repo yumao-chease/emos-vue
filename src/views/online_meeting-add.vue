@@ -36,7 +36,7 @@
 							v-model="dataForm.start"
 							start="08:30"
 							step="00:30"
-							end="18:30"
+							end="23:30"
 							size="medium"
 							style="width:96%"
 							clearable="clearable"
@@ -51,7 +51,7 @@
 							v-model="dataForm.end"
 							start="08:30"
 							step="00:30"
-							end="18:30"
+							end="23:30"
 							size="medium"
 							style="width:96%"
 							clearable="clearable"
@@ -126,7 +126,41 @@ export default {
 				});
 			});
 		},
-	}
+    dataFormSubmit: function() {
+      let that = this;
+      let data = JSON.parse(JSON.stringify(that.dataForm));
+      data.date = dayjs(that.dataForm.date).format('YYYY-MM-DD');
+      data.members = JSON.stringify(that.dataForm.members);
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          that.$http('meeting/insert', 'POST', data, true, function(resp) {
+            if (resp.rows == 1) {
+              that.visible = false;
+              that.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1200
+              });
+              setTimeout(function() {
+                that.$emit('refresh');
+              }, 1200);
+            } else {
+              that.$message({
+                message: '操作失败',
+                type: 'error',
+                duration: 1200
+              });
+            }
+          });
+        }
+      });
+    },
+    refresh: function() {
+      this.$refs['dataForm'].resetFields();
+      this.loadDataList();
+    }
+
+  }
 };
 </script>
 

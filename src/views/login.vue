@@ -5,15 +5,15 @@
 				<el-row class="panel">
 					<el-col :span="12">
 						<div class="left">
-							<img src="../assets/login/logo.png" class="logo" />
+							<!--<img src="../assets/login/logo.png" class="logo" />-->
 							<img src="../assets/login/big-1.png" class="big" />
 						</div>
 					</el-col>
 					<el-col :span="12">
 						<div class="right">
 							<div class="title-container">
-								<h2>Emos在线办公平台</h2>
-								<span>( Ver 1.0 )</span>
+								<h2>在线协同办公自动化系统( Ver 1.0 )</h2>
+								<!--<span>( Ver 1.0 )</span>-->
 							</div>
 							<div v-if="!qrCodeVisible">
 								<div class="row"><el-input v-model="username" placeholder="用户名" prefix-icon="el-icon-user" clearable="clearable" /></div>

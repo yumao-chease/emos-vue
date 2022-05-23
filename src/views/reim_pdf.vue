@@ -109,8 +109,45 @@ export default {
 					.replace(/(零.)+/g, '零')
 					.replace(/^整$/, '零元整')
 			);
-		}
-	}
+		},
+    init: function(id) {
+      let that = this;
+      that.visible = true;
+      that.dept = null;
+      that.name = null;
+      that.date = null;
+      that.amount = null;
+      that.balance = null;
+      that.anleihen = null;
+      that.money_1 = 0;
+      that.money_2 = 0;
+      that.content = [];
+      that.$http('reim/searchReimById', 'POST', { id: id }, true, function(resp) {
+        that.dept = resp.dept;
+        that.name = resp.name;
+        that.date = resp.date;
+        that.amount = resp.amount;
+        that.balance = resp.balance;
+        that.anleihen = resp.anleihen;
+        if (that.anleihen > that.amount) {
+          that.money_1 = that.anleihen - that.amount;
+        } else if (that.anleihen < that.amount) {
+          that.money_2 = that.amount - that.anleihen;
+        }
+        let content = JSON.parse(resp.content);
+        let temp = 5 - content.length;
+        for (let i = 0; i < temp; i++) {
+          content.push({ title: '', desc: '', type: '', money: '' });
+        }
+        that.content = content;
+        that.qrCodeBase64 = resp.qrCodeBase64;
+      });
+    },
+    cancel: function() {
+      this.visible = false;
+    },
+
+  }
 };
 </script>
 

@@ -80,8 +80,34 @@ export default {
 				}
 			});
 		},
-		
-	}
+    dataFormSubmit: function() {
+      let that = this;
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          that.$http(`dept/${!that.dataForm.id ? 'insert' : 'update'}`, 'POST', that.dataForm, true, function(
+              resp
+          ) {
+            if (resp.rows == 1) {
+              that.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1200
+              });
+              that.visible = false;
+              that.$emit('refreshDataList');
+            } else {
+              that.$message({
+                message: '操作失败',
+                type: 'error',
+                duration: 1200
+              });
+            }
+          });
+        }
+      });
+    }
+
+  }
 };
 </script>
 
